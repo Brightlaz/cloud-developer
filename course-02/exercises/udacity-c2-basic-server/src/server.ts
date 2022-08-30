@@ -9,7 +9,7 @@ import { Car, cars as cars_list } from './cars';
   //Create an express application
   const app = express(); 
   //default port to listen
-  const port = 8082; 
+  const port = 8083; 
   
   //use middleware so post bodies 
   //are accessable as req.body.{{variable}}
@@ -33,7 +33,7 @@ import { Car, cars as cars_list } from './cars';
       }
 
       return res.status(200)
-                .send(`Welcome to the Cloud, ${name}!`);
+                .send(`Welcome to the Cloud city, ${name}!`);
   } );
 
   // Get a greeting to a specific person to demonstrate req.query
@@ -47,7 +47,7 @@ import { Car, cars as cars_list } from './cars';
     }
 
     return res.status(200)
-              .send(`Welcome to the Cloud, ${name}!`);
+              .send(`Welcome to the Cloud louge, ${name}!`);
   } );
 
   // Post a greeting to a specific person

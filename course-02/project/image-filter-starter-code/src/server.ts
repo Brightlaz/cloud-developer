@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { json } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -14,6 +14,20 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.use(bodyParser.json());
 
   // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
+  app.get("/filteredimage/", async (req, res) =>{
+    try{
+      let {image_url} = req.query;
+      if(!image_url){
+        return res.status(400).send("An image url is required");
+      }
+      let path = await filterImageFromURL(image_url);
+      res.status(200).sendFile(path);
+      res.on('finish', () => deleteLocalFiles([path]));
+    } catch {
+      return res.status(500).send({error: 'Could not process request'});
+    }
+    });
+  
   // GET /filteredimage?image_url={{URL}}
   // endpoint to filter an image from a public url.
   // IT SHOULD
@@ -26,7 +40,6 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //    image_url: URL of a publicly accessible image
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
-
   /**************************************************************************** */
 
   //! END @TODO1
