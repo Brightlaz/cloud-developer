@@ -1,6 +1,6 @@
 // import { TodosAccess } from './todosAcess'
 // import { AttachmentUtils } from './attachmentUtils'
-// import { TodoItem } from '../models/TodoItem'
+import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 // import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 // import { createLogger } from '../utils/logger'
@@ -13,7 +13,7 @@ import { getUserId } from '../lambda/utils'
 export function todoBuilder(
   todoRequest: CreateTodoRequest,
   event: APIGatewayProxyEvent
-) {
+): TodoItem {
   const todoId = uuid.v4()
   const todo = {
     todoId: todoId,
@@ -23,5 +23,5 @@ export function todoBuilder(
     attachmentUrl: '',
     ...todoRequest
   }
-  return todo
+  return todo as TodoItem
 }
