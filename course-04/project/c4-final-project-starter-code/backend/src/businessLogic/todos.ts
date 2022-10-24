@@ -7,15 +7,16 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import * as uuid from 'uuid'
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { getUserId } from '../lambda/utils'
+import { createTodo } from '../dataLayer/todosAcess'
 // import * as createError from 'http-errors'
 
 // TODO: Implement businessLogic
-export function todoBuilder(
+export async function todoBuilder(
   todoRequest: CreateTodoRequest,
   event: APIGatewayProxyEvent
-): TodoItem {
+) {
   const todoId = uuid.v4()
-  const todo = {
+  const todo: TodoItem = {
     todoId: todoId,
     userId: getUserId(event),
     createdAt: new Date().toISOString(),
@@ -23,5 +24,6 @@ export function todoBuilder(
     attachmentUrl: '',
     ...todoRequest
   }
+  await createTodo(todo)
   return todo as TodoItem
 }

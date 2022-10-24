@@ -5,7 +5,7 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { getTodoById, updateTodoData } from '../../helpers/todosAcess'
+import { getTodoById, updateTodoData } from '../../dataLayer/todosAcess'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
