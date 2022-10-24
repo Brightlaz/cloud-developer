@@ -21,7 +21,7 @@ export async function createTodo(todo: TodoItem): Promise<TodoItem> {
     })
     .promise()
 
-  return todo
+  return todo as TodoItem
 }
 export async function getAllTodosByUserId(userId: string): Promise<TodoItem[]> {
   const result = await docClient
@@ -68,16 +68,41 @@ export async function updateTodo(todo: TodoItem): Promise<TodoItem> {
 
   return result.Attributes as TodoItem
 }
-// export async function deleteTodo(todo: TodoItem): Promise<TodoItem> {
-//   const result = await docClient
-//   .delete({
-//     TableName: todosTable,
-//     Key: { userId, todoId }
-//   })
-//   .promise();
-
-//   return result.Attributes as TodoItem
-// }
+export async function updateTodoData(
+  todo: TodoItem,
+  updatedTodo
+): Promise<TodoItem> {
+  const result = await docClient
+    .update({
+      TableName: todosTable,
+      Key: {
+        userId: todo.userId,
+        todoId: todo.todoId
+      },
+      UpdateExpression:
+        'set #todoName = :todoName, dueDate = :dueDate, done = :done', // Use an alias as name is reserved
+      ExpressionAttributeNames: { '#todoName': 'name' },
+      ExpressionAttributeValues: {
+        ':todoName': updatedTodo.name,
+        ':dueDate': updatedTodo.dueDate,
+        ':done': updatedTodo.done
+      }
+    })
+    .promise()
+  return result.Attributes as TodoItem
+}
+export async function deleteTodo(todo: TodoItem): Promise<TodoItem> {
+  const result = await docClient
+    .delete({
+      TableName: todosTable,
+      Key: {
+        userId: todo.userId,
+        todoId: todo.todoId
+      }
+    })
+    .promise()
+  return result.Attributes as TodoItem
+}
 function createDynamoDBClient() {
   if (process.env.IS_OFFLINE) {
     console.log('Creating a local DynamoDB instance')
