@@ -1,5 +1,5 @@
 # Serverless TODO
-I developed and deployed a TODO application using AWS Lambda, the Serverless framework and React.js. This app will allow users to create/delete/update/get TODO items. 
+I developed and deployed a TODO application using AWS Lambda, the Serverless framework and React.js.
 
 ## Table of Contents
 
